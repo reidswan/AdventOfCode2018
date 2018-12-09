@@ -1,6 +1,7 @@
 module Main where
 
 import System.IO
+import System.Environment (getArgs)
 import Control.Monad
 import qualified DayOne
 import qualified DayThree
@@ -9,9 +10,14 @@ import qualified DayFive
 import qualified DaySix
 import qualified DaySeven
 import qualified DayEight
+import qualified DayNine
 
 main :: IO ()
-main = dayEight
+main = do
+    args <- getArgs
+    if null args
+        then putStrLn "Please supply a day to run"
+        else days !! read (head args)
 
 
 dayOne :: IO ()
@@ -85,6 +91,14 @@ dayEight = do
     let soln2 = DayEight.partTwo lines
     putStrLn ("Part two: " ++ show soln2)
 
+dayNine :: IO ()
+dayNine = do
+    putStrLn "Day 9"
+    let (players, limit) = (427, 7072300) -- lazy
+        soln1 = DayNine.partOne players limit
+    putStrLn ("Part one: " ++ show soln1)
+
+
 firstFileLine :: [Char] -> IO [Char]
 firstFileLine filename = do
     handle <- openFile filename ReadMode
@@ -99,3 +113,10 @@ fileContents filename = do
 
 asNumbers :: [[Char]] -> [Integer]
 asNumbers = map (read . dropWhile (== '+'))
+
+days = 
+    [
+        (putStrLn "Days are 1-indexed!"), dayOne, dayThree,
+        dayFour, dayFive, daySix, daySeven, dayEight, dayNine
+    ]
+
