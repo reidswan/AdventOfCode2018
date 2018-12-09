@@ -94,9 +94,11 @@ dayEight = do
 dayNine :: IO ()
 dayNine = do
     putStrLn "Day 9"
-    let (players, limit) = (427, 7072300) -- lazy
+    let (players, limit) = (427, 70723)
         soln1 = DayNine.partOne players limit
     putStrLn ("Part one: " ++ show soln1)
+    let soln2 = DayNine.partOne players (100*limit)
+    putStrLn ("Part two: " ++ show soln2)
 
 
 firstFileLine :: [Char] -> IO [Char]
@@ -116,7 +118,7 @@ asNumbers = map (read . dropWhile (== '+'))
 
 days = 
     [
-        (putStrLn "Days are 1-indexed!"), dayOne, dayThree,
-        dayFour, dayFive, daySix, daySeven, dayEight, dayNine
+        (putStrLn "Days are 1-indexed!"), dayOne, (putStrLn "TODO: migrate Day 2 from Rust to Haskell"),
+        dayThree, dayFour, dayFive, daySix, daySeven, dayEight, dayNine
     ]
 
