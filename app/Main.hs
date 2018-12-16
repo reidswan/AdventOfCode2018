@@ -11,6 +11,7 @@ import qualified DaySix
 import qualified DaySeven
 import qualified DayEight
 import qualified DayNine
+import qualified DayTen
 
 main :: IO ()
 main = do
@@ -101,6 +102,13 @@ dayNine = do
     putStrLn ("Part two: " ++ show soln2)
 
 
+dayTen :: IO ()
+dayTen = do
+    putStrLn "Day 10"
+    contents <- fileContents "input/dayTen.txt"
+    let points = map DayTen.parseLine $ filter (not . null) contents
+    DayTen.solution 0 points
+
 firstFileLine :: [Char] -> IO [Char]
 firstFileLine filename = do
     handle <- openFile filename ReadMode
@@ -119,6 +127,5 @@ asNumbers = map (read . dropWhile (== '+'))
 days = 
     [
         (putStrLn "Days are 1-indexed!"), dayOne, (putStrLn "TODO: migrate Day 2 from Rust to Haskell"),
-        dayThree, dayFour, dayFive, daySix, daySeven, dayEight, dayNine
+        dayThree, dayFour, dayFive, daySix, daySeven, dayEight, dayNine, dayTen
     ]
-
