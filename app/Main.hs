@@ -12,6 +12,7 @@ import qualified DaySeven
 import qualified DayEight
 import qualified DayNine
 import qualified DayTen
+import qualified DayEleven
 
 main :: IO ()
 main = do
@@ -109,6 +110,15 @@ dayTen = do
     let points = map DayTen.parseLine $ filter (not . null) contents
     DayTen.solution 0 points
 
+dayEleven :: IO ()
+dayEleven = do
+    putStrLn "Day 11"
+    let grid = DayEleven.powerGrid 9995
+        soln1 = DayEleven.part1 grid
+    putStrLn ("Part one: " ++ show soln1)
+    let soln2 = DayEleven.part2 grid -- this uses like 2GB of RAM?? 
+    putStrLn ("Part two: " ++ show soln2)
+
 firstFileLine :: [Char] -> IO [Char]
 firstFileLine filename = do
     handle <- openFile filename ReadMode
@@ -127,5 +137,5 @@ asNumbers = map (read . dropWhile (== '+'))
 days = 
     [
         (putStrLn "Days are 1-indexed!"), dayOne, (putStrLn "TODO: migrate Day 2 from Rust to Haskell"),
-        dayThree, dayFour, dayFive, daySix, daySeven, dayEight, dayNine, dayTen
+        dayThree, dayFour, dayFive, daySix, daySeven, dayEight, dayNine, dayTen, dayEleven
     ]

@@ -24,6 +24,7 @@ dependencies:
 - containers
 - array
 - regex-applicative
+- time
 
 library:
   source-dirs: src
