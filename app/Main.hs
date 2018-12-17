@@ -13,6 +13,7 @@ import qualified DayEight
 import qualified DayNine
 import qualified DayTen
 import qualified DayEleven
+import qualified DayTwelve
 
 main :: IO ()
 main = do
@@ -119,6 +120,17 @@ dayEleven = do
     let soln2 = DayEleven.part2 grid -- this uses like 2GB of RAM?? 
     putStrLn ("Part two: " ++ show soln2)
 
+dayTwelve :: IO ()
+dayTwelve = do
+    putStrLn "Day 12"
+    (first:rest) <- fileContents "input/dayTwelve.txt"
+    let initState = DayTwelve.parseInitialState first
+        rules = DayTwelve.makeRules rest
+        soln1 = DayTwelve.part1 rules initState
+    putStrLn ("Part one: " ++ show soln1)
+    let soln2 = DayTwelve.part2 rules initState
+    putStrLn ("Part two: " ++ show soln2)
+
 firstFileLine :: [Char] -> IO [Char]
 firstFileLine filename = do
     handle <- openFile filename ReadMode
@@ -137,5 +149,5 @@ asNumbers = map (read . dropWhile (== '+'))
 days = 
     [
         (putStrLn "Days are 1-indexed!"), dayOne, (putStrLn "TODO: migrate Day 2 from Rust to Haskell"),
-        dayThree, dayFour, dayFive, daySix, daySeven, dayEight, dayNine, dayTen, dayEleven
+        dayThree, dayFour, dayFive, daySix, daySeven, dayEight, dayNine, dayTen, dayEleven, dayTwelve
     ]
