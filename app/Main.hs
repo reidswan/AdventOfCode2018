@@ -14,6 +14,7 @@ import qualified DayNine
 import qualified DayTen
 import qualified DayEleven
 import qualified DayTwelve
+import qualified DayThirteen
 
 main :: IO ()
 main = do
@@ -131,6 +132,15 @@ dayTwelve = do
     let soln2 = DayTwelve.part2 rules initState
     putStrLn ("Part two: " ++ show soln2)
 
+dayThirteen :: IO ()
+dayThirteen = do
+    putStrLn "Day 13"
+    lines <- fileContents "input/dayThirteen.txt"
+    let soln1 = DayThirteen.partOne lines
+    putStrLn ("Part one: " ++ show soln1)
+    let soln2 = DayThirteen.partTwo lines
+    putStrLn ("Part two: " ++ show soln2)
+
 firstFileLine :: [Char] -> IO [Char]
 firstFileLine filename = do
     handle <- openFile filename ReadMode
@@ -149,5 +159,6 @@ asNumbers = map (read . dropWhile (== '+'))
 days = 
     [
         (putStrLn "Days are 1-indexed!"), dayOne, (putStrLn "TODO: migrate Day 2 from Rust to Haskell"),
-        dayThree, dayFour, dayFive, daySix, daySeven, dayEight, dayNine, dayTen, dayEleven, dayTwelve
+        dayThree, dayFour, dayFive, daySix, daySeven, dayEight, dayNine, dayTen, dayEleven, dayTwelve,
+        dayThirteen
     ]
