@@ -2,7 +2,14 @@ module AoCLib.SeqRing where
 
 import qualified Data.Sequence as Seq
 
-data SeqRing a = SeqRing {before :: Seq.Seq a, after :: Seq.Seq a} deriving (Eq, Show)
+data SeqRing a = SeqRing {before :: Seq.Seq a, after :: Seq.Seq a} deriving (Eq)
+
+_show acc _ SeqRing{after=Seq.Empty, before=Seq.Empty} = concat $ reverse acc
+_show acc mark SeqRing{after=a, before=b Seq.:|> trg} = _show (show trg:acc) mark SeqRing {after=a, before=b}
+_show acc mark SeqRing{after=trg Seq.:<| a} = _show ((if mark then "(" ++ show trg ++ ")" else show trg):acc) False SeqRing {after=a, before=Seq.empty}
+
+instance (Show a) => Show (SeqRing a) where
+    show = _show [] True . normalize
 
 empty :: SeqRing a
 empty = SeqRing {before = Seq.empty, after = Seq.empty}
@@ -66,3 +73,10 @@ rotate i sr
     | i < 0 = case sr of 
         SeqRing {before=Seq.Empty, after=a} -> rotate i SeqRing {before=Seq.reverse a, after=Seq.empty}
         SeqRing {before=trg Seq.:<| b, after=a} -> rotate (i+1) SeqRing {before=b, after= trg Seq.:<| a}
+
+reset :: SeqRing a -> SeqRing a
+reset sr@SeqRing {before=Seq.Empty} = sr
+reset SeqRing {after=a, before=b} = empty {after=Seq.reverse b Seq.>< a}
+
+toSequence :: SeqRing a -> Seq.Seq a
+toSequence = after . reset

@@ -146,8 +146,10 @@ dayFourteen :: IO ()
 dayFourteen = do
     putStrLn "Day 14"
     end <- readLn :: IO Int
-    let result = DayFourteen.go end DayFourteen.init
-    print result
+    let soln1 = DayFourteen.partOne end
+    putStrLn ("Part one: " ++ show soln1)
+    let soln2 = DayFourteen.partTwo end
+    putStrLn ("Part two: " ++ show soln2)
 
 firstFileLine :: [Char] -> IO [Char]
 firstFileLine filename = do

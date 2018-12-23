@@ -1,25 +1,32 @@
 module DayFourteen where
 
 import qualified Data.Sequence as Seq
-import qualified AoCLib.SeqRing as SR
-import Debug.Trace (trace)
+import Data.List (tails)
 
-type Chefs = (SR.SeqRing Word, SR.SeqRing Word)
+-- this awesome solution was stolen from u/mstksg 
+-- https://www.reddit.com/r/adventofcode/comments/a61ojp/2018_day_14_solutions/ebr5c0q
+scoreboard = 3 : 7 : rest
+    where 
+        rest = next 0 1 (Seq.fromList [3, 7])
+        next c1 c2 recipes = 
+            let 
+                v1 = Seq.index recipes c1
+                v2 = Seq.index recipes c2
+                total = v1 + v2
+                digits = if total < 10 then [total] else [total `div` 10, total `rem` 10]
+                recipes' = recipes Seq.>< Seq.fromList digits
+                l' = Seq.length recipes'
+                c1' = (c1 + v1 + 1) `rem` l'
+                c2' = (c2 + v2 + 1) `rem` l'
+            in
+                 digits ++ next c1' c2' recipes'
 
-step :: Chefs -> Chefs
-step (c1, c2) = 
-    let 
-        v1 = SR.head c1
-        v2 = SR.head c2
-        t = v1 + v2
-        digits = if t >= 10 then [t `rem` 10, t `div` 10] else [t]
-        c1' = SR.rotate (1 + v1) $ foldr (SR.append) c1 digits
-        c2' = SR.rotate (1 + v2) $ foldr (SR.append) c2 digits
-    in 
-        (c1', c2')
+partOne :: Int -> String
+partOne i = concatMap show $ take 10 $ drop i scoreboard
 
-go 0 x = x
-go i x = trace (show x) $ go (i-1) $ step x
-
-init :: Chefs
-init = (SR.fromList [3, 7], SR.fromList [3, 7])
+partTwo :: Int -> Int
+partTwo i = match 0 scoreboard
+    where 
+        digits = map (read . (:[])) $ show i 
+        l = length digits
+        match j c = if take l c == digits then j else match (j+1) (drop 1 c)
