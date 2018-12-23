@@ -2,7 +2,7 @@ module DayNine where
 
 import qualified Data.Map as Map
 import qualified Data.Sequence as Seq
-import qualified AoCLib as Lib
+import qualified AoCLib.Ring as Lib
 
 removeAt :: Int -> Seq.Seq a -> (a, Seq.Seq a)
 removeAt i ls = 
