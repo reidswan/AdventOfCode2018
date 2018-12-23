@@ -1,4 +1,4 @@
-module AoCLib where
+module AoCLib.Ring where
 
 import qualified Data.List as List
 
